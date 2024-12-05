@@ -1,6 +1,7 @@
 const express = require("express");
 const morgan = require("morgan");
 const app = express();
+const cors = require("cors");
 
 const PORT = 3001;
 
@@ -26,6 +27,8 @@ let persons = [
 		id: "4",
 	},
 ];
+
+app.use(cors());
 
 morgan.token("body", (req) => JSON.stringify(req.body) || "");
 
@@ -78,7 +81,7 @@ app.get("/api/persons/:id", (req, res) => {
 	else res.send(`User ${find.name} phone number is ${find.number}`);
 });
 
-app.delete("/api/persons/delete/:id", (req, res) => {
+app.delete("/api/persons/:id", (req, res) => {
 	const id = req.params.id;
 
 	persons = persons.filter((person) => person.id !== id);
