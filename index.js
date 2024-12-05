@@ -3,7 +3,7 @@ const morgan = require("morgan");
 const app = express();
 const cors = require("cors");
 
-const PORT = 3001;
+const PORT = process.env.PORT || 3001;
 
 let persons = [
 	{
@@ -65,7 +65,7 @@ app.post("/api/persons", (req, res) => {
 	const newPerson = {
 		name: newName,
 		number: newNumber,
-		id: Math.floor(Math.random() * 10000) + 1,
+		id: Number(Math.floor(Math.random() * 10000) + 1).toString(), // simple fix to make new id types same as hardcoded
 	};
 
 	persons.push(newPerson);
