@@ -7,7 +7,7 @@
 		"start": "node index.js",
 		"dev": "nodemon index.js",
 		"build:ui": "@powershell Remove-Item -Recurse -Force dist && cd ../fullstackopen/osa2/puhelinluettelo && npm run build && @powershell Copy-Item dist -Recurse ../../../fullstackopen-backend",
-    	"deploy:full": "npm run build:ui && git add . && git commit -m uibuild && git push"
+		"deploy:full": "npm run build:ui && git add . && git commit -m uibuild && git push"
 	},
 	"author": "",
 	"license": "ISC",

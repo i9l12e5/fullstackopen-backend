@@ -28,6 +28,12 @@ let persons = [
 	},
 ];
 
+const generateId = () => {
+	// added this bit to prevent any chances of duplicate ids
+	const maxId = persons.length > 0 ? Math.max(...persons.map((n) => n.id)) : 0;
+	return Number(maxId + 1).toString(); // return number as string to match hardcoded value type
+};
+
 app.use(cors());
 app.use(express.static("dist"));
 
@@ -66,7 +72,7 @@ app.post("/api/persons", (req, res) => {
 	const newPerson = {
 		name: newName,
 		number: newNumber,
-		id: Number(Math.floor(Math.random() * 10000) + 1).toString(), // simple fix to make new id types same as hardcoded
+		id: generateId(),
 	};
 
 	persons.push(newPerson);
