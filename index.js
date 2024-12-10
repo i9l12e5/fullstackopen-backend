@@ -49,6 +49,7 @@ const generateId = async () => {
 	return 1;
 };
 
+app.use(express.static("dist"));
 app.use(express.json()); // Load before morgan
 morgan.token("body", (req) => {
 	return JSON.stringify(req.body);
