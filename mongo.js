@@ -6,7 +6,7 @@ if (process.argv.length < 3) {
 }
 
 const password = process.argv[2];
-const fetchAll = process.argv.length === 3 ? true : false;
+const fetchAll = process.argv.length === 3;
 const name = process.argv[3];
 const number = process.argv[4];
 
@@ -30,9 +30,10 @@ const newContact = new Contact({
 if (fetchAll) {
 	Contact.find({}).then((persons) => {
 		console.log("Phonebook:");
-		persons.forEach((person) => {
+		for (const person of persons) {
 			console.log(`${person.name} ${person.number}`);
-		});
+		}
+
 		mongoose.connection.close();
 	});
 } else {

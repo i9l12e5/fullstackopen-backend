@@ -22,15 +22,16 @@ const generateId = async () => {
 
 	if (count > 0) {
 		const result = await contactSchema.find({});
-		const ids = result.map((value) => (isFinite(value.id) ? value.id : 0)); // Fixes entries with missing id. Since there is no failsafe to guarantee broken contacts have valid unique id, we identify them with zero ID
+		const ids = result.map((value) => (Number.isFinite(value.id) ? value.id : 0)); // Fixes entries with missing id. Since there is no failsafe to guarantee broken contacts have valid unique id, we identify them with zero ID
 
 		const maxId = Math.max(...ids);
 
 		return maxId + 1;
-	} else {
-		// Default value for first one
-		return 1;
 	}
+
+	// Default value for first one
+	return 1;
+
 };
 
 app.use(express.json()); // Load before morgan
@@ -83,14 +84,14 @@ app.post("/api/persons", async (req, res, next) => {
 		.then((result) => {
 			if (result !== null)
 				return res.status(400).json({ error: "Name must be unique" }).end();
-			else {
-				newEntry
-					.save()
-					.then(() => {
-						return res.status(201).end();
-					})
-					.catch((error) => next(error));
-			}
+
+			newEntry
+				.save()
+				.then(() => {
+					return res.status(201).end();
+				})
+				.catch((error) => next(error));
+
 		})
 		.catch((error) => next(error));
 });
@@ -115,7 +116,6 @@ app.put("/api/persons/:id", (req, res, next) => {
 	const id = req.params.id;
 	const body = req.body;
 
-	// TODO: korjaa
 	contactSchema
 		.findOneAndUpdate(
 			{ id: id },
@@ -123,7 +123,6 @@ app.put("/api/persons/:id", (req, res, next) => {
 			{ returnNewDocument: true },
 		)
 		.then((result) => {
-			console.log(result);
 
 			if (result) res.json(result);
 			else res.status(404);

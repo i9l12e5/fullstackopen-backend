@@ -24,9 +24,7 @@ const contactSchema = new mongoose.Schema({
         minLength: 8,
         required: true,
         validate: {
-            validator: function (v) {
-                return /^\d{2,3}-\S{5,}$/.test(v);
-            },
+            validator: (v) => /^\d{2,3}-\S{5,}$/.test(v),
             message: (props) => `${props.value} is not a valid phone number!`,
         },
     },
@@ -39,8 +37,8 @@ const contactSchema = new mongoose.Schema({
 
 contactSchema.set("toJSON", {
     transform: (document, returnedObject) => {
-        delete returnedObject._id;
-        delete returnedObject.__v;
+        returnedObject._id = undefined;
+        returnedObject.__v = undefined;
     },
 });
 
