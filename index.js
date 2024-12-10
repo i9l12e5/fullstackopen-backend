@@ -2,10 +2,24 @@ const express = require("express");
 const morgan = require("morgan");
 const app = express();
 const contactSchema = require("./models/contact");
+const { default: mongoose } = require("mongoose");
 
 const PORT = process.env.PORT || 3001;
 
 const Contact = contactSchema;
+
+mongoose.set("strictQuery", false);
+
+const url = process.env.MONGODB_URI;
+
+mongoose
+	.connect(url)
+	.then((result) => {
+		console.log("connected to MongoDB");
+	})
+	.catch((error) => {
+		console.log("error connecting to MongoDB:", error.message);
+	});
 
 const countPersons = async () => {
 	try {
