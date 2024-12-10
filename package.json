@@ -5,7 +5,7 @@
 	"scripts": {
 		"test": "echo \"Error: no test specified\" && exit 1",
 		"start": "node index.js",
-		"dev": "nodemon index.js",
+		"dev": "nodemon --inspect --env-file=.env index.js",
 		"build:ui": "@powershell Remove-Item -Recurse -Force dist && cd ../fullstackopen/osa2/puhelinluettelo && npm run build && @powershell Copy-Item dist -Recurse ../../../fullstackopen-backend",
 		"deploy:full": "npm run build:ui && git add . && git commit -m uibuild && git push"
 	},
@@ -19,6 +19,7 @@
 	"dependencies": {
 		"cors": "^2.8.5",
 		"express": "^4.21.1",
+		"mongoose": "^8.8.4",
 		"morgan": "^1.10.0"
 	}
 }
