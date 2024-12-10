@@ -1,7 +1,7 @@
 const express = require("express");
 const morgan = require("morgan");
 const app = express();
-const contactSchema = require("./models/customer");
+const contactSchema = require("./models/contact");
 
 const PORT = process.env.PORT || 3001;
 
@@ -22,7 +22,9 @@ const generateId = async () => {
 
 	if (count > 0) {
 		const result = await contactSchema.find({});
-		const ids = result.map((value) => (Number.isFinite(value.id) ? value.id : 0)); // Fixes entries with missing id. Since there is no failsafe to guarantee broken contacts have valid unique id, we identify them with zero ID
+		const ids = result.map((value) =>
+			Number.isFinite(value.id) ? value.id : 0,
+		); // Fixes entries with missing id. Since there is no failsafe to guarantee broken contacts have valid unique id, we identify them with zero ID
 
 		const maxId = Math.max(...ids);
 
@@ -31,7 +33,6 @@ const generateId = async () => {
 
 	// Default value for first one
 	return 1;
-
 };
 
 app.use(express.json()); // Load before morgan
@@ -91,7 +92,6 @@ app.post("/api/persons", async (req, res, next) => {
 					return res.status(201).end();
 				})
 				.catch((error) => next(error));
-
 		})
 		.catch((error) => next(error));
 });
@@ -123,7 +123,6 @@ app.put("/api/persons/:id", (req, res, next) => {
 			{ returnNewDocument: true },
 		)
 		.then((result) => {
-
 			if (result) res.json(result);
 			else res.status(404);
 		})
